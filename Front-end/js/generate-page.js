@@ -1,19 +1,9 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-irregular-whitespace */
-// File: generate-page.js (REVISI FINAL: Save ke History hanya setelah Save API)
-
-// ======================================================================
-// KONFIGURASI API
-// ======================================================================
 const API_BASE_URL = "http://127.0.0.1:8000";
 const ENDPOINT_GENERATE = "/generate";
 const ENDPOINT_REFINE = "/refine";
 const ENDPOINT_SAVE = "/save_compound";
-
-// ======================================================================
-// STATE GLOBAL
-// ======================================================================
 let currentCompoundData = null;
 let currentRecommendation = null;
 let progressInterval;
@@ -27,19 +17,12 @@ const AI_STEPS = [
     "Selesai! Memuat hasil."
 ];
 
-// Local storage key untuk riwayat
 const HISTORY_KEY = "chemistry_history_v1";
 
-// ======================================================================
-// UTILITY: Generate ID
-// ======================================================================
 function generateId() {
     return 'h_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
 }
 
-// ======================================================================
-// UTILITY: History Management
-// ======================================================================
 function loadHistory() {
     try {
         const raw = localStorage.getItem(HISTORY_KEY);
@@ -60,10 +43,7 @@ function saveHistory(arr) {
         console.warn('Gagal menyimpan history', e);
     }
 }
-
-// *** PERUBAHAN KRITIS: Fungsi ini sekarang hanya dipanggil setelah SAVE API berhasil ***
 function addToHistory(name, answerObj) {
-    // Simpan ke UI dan localStorage
     const history = loadHistory();
     const item = {
         id: generateId(),
@@ -71,24 +51,16 @@ function addToHistory(name, answerObj) {
         timestamp: Date.now(),
         answer: answerObj || null
     };
-
-    // tambahkan ke awal
     history.unshift(item);
     saveHistory(history);
-    // Kita panggil renderHistoryList setelah save API berhasil (di handleSaveResult)
 }
 
 function deleteHistoryItem(id) {
     let history = loadHistory();
     history = history.filter(h => h.id !== id);
     saveHistory(history);
-    // renderHistoryList() akan dipanggil setelah ini di showDeleteConfirmModal
 }
 
-
-// ==================================================================
-// FUNGSI BARU: RENDER STRUKTUR SENYAWA (Perlu disesuaikan dengan Library Anda)
-// ==================================================================
 
 /**
  * Merender struktur senyawa 2D menggunakan kode SMILES ke dalam elemen canvas.
@@ -100,25 +72,18 @@ function deleteHistoryItem(id) {
 function renderCompoundStructure(smilesCode, targetElementId) {
     const targetEl = document.getElementById(targetElementId);
     if (!targetEl) return;
-    
-    // ----------------------------------------------------------------------
-    // !!! GANTI KODE INI DENGAN KODE LIBRARY ANDA !!!
-    // ----------------------------------------------------------------------
-    
-    // ** IMPLEMENTASI KEKULE.JS (Contoh, perlu memastikan Kekule sudah terload global) **
+
     if (typeof Kekule !== 'undefined' && Kekule.IO && Kekule.Widget) {
         try {
-            // Bersihkan wadah sebelum merender yang baru
             targetEl.innerHTML = ''; 
             
-            // Konversi SMILES ke Objek Kimia
             const mol = Kekule.IO.loadFormatData(smilesCode, 'smi');
             
             // Buat instance Viewer Kekule
             const viewer = new Kekule.Widget.Viewer(targetEl);
-            viewer.setRenderType(Kekule.Render.RenderType.R2D); // Tampilkan 2D
+            viewer.setRenderType(Kekule.Render.RenderType.R2D); 
             viewer.setChemObj(mol);
-            viewer.setEnableDirectInteraction(true); // Opsional: Memungkinkan interaksi pengguna
+            viewer.setEnableDirectInteraction(true); 
             
         } catch(e) {
             console.error("Gagal merender struktur dengan Kekule.js:", e);
@@ -128,26 +93,18 @@ function renderCompoundStructure(smilesCode, targetElementId) {
         }
 
     } else {
-        // Placeholder jika library tidak ditemukan
         targetEl.innerHTML = `<p style="padding: 10px; text-align: center; color: var(--color-text-secondary);">
             SMILES: <strong>${escapeHtml(smilesCode)}</strong>. 
             <br>
             Library rendering struktur (misalnya Kekule.js) tidak ditemukan.
         </p>`;
     }
-    // ----------------------------------------------------------------------
 }
 
 
-// ======================================================================
-// MAIN EXECUTION
-// ======================================================================
 document.addEventListener("DOMContentLoaded", function () {
     console.log("generate-page.js loaded");
 
-    // ==========================
-    // ELEMENT UTAMA
-    // ==========================
     const form = document.querySelector(".form-layout");
     const btnGenerate = document.querySelector(".btn-generate");
     const btnBack = document.querySelector(".btn-back");
@@ -156,12 +113,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const popupContent = document.getElementById("resultContent");
     const closePopup = document.getElementById("closeResultPopup");
 
-    // NEW: History Modal Elements
     const historyModal = document.getElementById("historyModal");
     const btnToggleHistory = document.querySelector(".btn-history-toggle");
     const closeHistoryModal = document.getElementById("closeHistoryModal");
 
-    // History & Search elements (desktop & mobile)
     const desktopHistoryListEl = document.querySelector(".chat-history-list:not(.modal-history-list)");
     const mobileHistoryListEl = document.querySelector(".modal-history-list");
     const desktopHistorySearchInput = document.querySelector('.sidebar-container .history-search');
@@ -171,17 +126,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (popup) popup.style.display = "none";
     if (historyModal) historyModal.style.display = "none";
-    if (closePopup) closePopup.style.display = "flex"; // Pastikan default terlihat
+    if (closePopup) closePopup.style.display = "flex"; 
 
-    // ==================================================================
-    // FUNGSI: SETUP HISTORY SEARCH (Dijalankan untuk Desktop & Mobile)
-    // ==================================================================
     function setupHistorySearch(input, clearBtn) {
         if (!input || !clearBtn) return;
 
         input.addEventListener('input', () => {
             const query = input.value.trim();
-            // Sinkronkan input di kedua tempat
             if (input === desktopHistorySearchInput && mobileHistorySearchInput) {
                 mobileHistorySearchInput.value = query;
             } else if (input === mobileHistorySearchInput && desktopHistorySearchInput) {
@@ -200,10 +151,6 @@ document.addEventListener("DOMContentLoaded", function () {
     setupHistorySearch(desktopHistorySearchInput, desktopClearBtn);
     setupHistorySearch(mobileHistorySearchInput, mobileClearBtn);
 
-
-    // ==================================================================
-    // FUNGSI: LOADING & PROGRESS AI
-    // ==================================================================
     function setLoadingState(isLoading, message = "GENERATE") {
         if (btnGenerate) {
             btnGenerate.textContent = isLoading ? "Processing..." : message;
@@ -213,10 +160,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (isLoading && popup && popupContent) {
             popup.style.display = "flex";
-            if (closePopup) closePopup.style.display = "none"; // Sembunyikan tombol tutup saat loading
+            if (closePopup) closePopup.style.display = "none"; 
 
             const popupTitle = popup.querySelector(".popup-title");
-            if (popupTitle) popupTitle.textContent = "⚙️ Memproses Senyawa Baru...";
+            if (popupTitle) popupTitle.textContent = "Memproses Senyawa Baru...";
 
             popupContent.innerHTML = `
                 <div id="ai-progress-display">
@@ -230,7 +177,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             simulateProgress();
         } else if (!isLoading && closePopup) {
-             // Tampilkan kembali tombol tutup setelah selesai (kecuali jika ada modal kustom yang meng-handle)
              if (!document.getElementById("confirmDeleteBtn") && !document.getElementById("closeModalBtn")) {
                  closePopup.style.display = "flex";
              }
@@ -256,24 +202,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     
-    // ==================================================================
-    // FUNGSI: MODAL KUSTOM GENERIK
-    // ==================================================================
     function showCustomModal(title, message, status) {
         if (!popup || !popupContent) return;
 
         clearInterval(progressInterval);
-        if (closePopup) closePopup.style.display = "none"; // Sembunyikan tombol 'X' jika ada tombol 'OK'
+        if (closePopup) closePopup.style.display = "none"; 
 
-        let icon = "❌";
+        let icon = "error";
         let color = "var(--color-error)";
         let spinner = "";
 
         if (status === true) {
-            icon = "✅";
+            icon = "correct";
             color = "var(--color-success)";
         } else if (status === false) {
-            icon = "🔄";
+            icon = "reload";
             color = "var(--color-accent-blue-neon)";
             spinner = `<div class="loading-spinner"></div>`;
         }
@@ -302,17 +245,13 @@ document.addEventListener("DOMContentLoaded", function () {
         popup.style.display = "flex";
     }
 
-// ==================================================================
-// FUNGSI: MODAL KONFIRMASI HAPUS KUSTOM (BARU)
-// ==================================================================
 function showDeleteConfirmModal(id, name) {
     if (!popup || !popupContent) return;
 
     clearInterval(progressInterval);
-    if (closePopup) closePopup.style.display = "none"; // Sembunyikan tombol 'X'
+    if (closePopup) closePopup.style.display = "none"; 
 
-    // Setel judul popup menjadi konfirmasi
-    popup.querySelector(".popup-title").textContent = `⚠️ Konfirmasi Penghapusan`;
+    popup.querySelector(".popup-title").textContent = `Konfirmasi Penghapusan`;
 
     popupContent.innerHTML = `
         <div class="custom-modal-content">
@@ -331,40 +270,28 @@ function showDeleteConfirmModal(id, name) {
 
     popup.style.display = "flex";
 
-    // Tambahkan event listener untuk tombol di modal
     document.getElementById("cancelDeleteBtn").addEventListener('click', () => {
         popup.style.display = "none";
-        if (closePopup) closePopup.style.display = "flex"; // Tampilkan kembali tombol tutup
+        if (closePopup) closePopup.style.display = "flex"; 
     });
     
     document.getElementById("confirmDeleteBtn").addEventListener('click', () => {
-        // 1. Hapus data dari local storage
         deleteHistoryItem(id); 
         
-        // 2. Tutup modal konfirmasi (popup utama)
         popup.style.display = "none";
-        if (closePopup) closePopup.style.display = "flex"; // Tampilkan kembali tombol tutup 'X'
+        if (closePopup) closePopup.style.display = "flex"; 
         
-        // 3. Tambahan: Tutup juga modal history mobile jika sedang terbuka
         const historyModal = document.getElementById("historyModal");
         if (historyModal && historyModal.style.display === "flex") {
             historyModal.style.display = "none";
         }
 
-        // 4. Update daftar riwayat di semua tempat (desktop dan mobile)
         renderHistoryList(); 
         
-        // Opsional: Tampilkan modal sukses sesaat (jika Anda ingin umpan balik cepat)
-        // showCustomModal('Berhasil Dihapus', `Riwayat "${name}" telah dihapus.`, true);
     });
 }
 
 
-    // ==================================================================
-    // FUNGSI: RIWAYAT (Rendering & Viewing)
-    // ==================================================================
-
-    // FUNGSI INI DIUBAH UNTUK MENGATUR STRUKTUR HTML AGAR SESUAI DENGAN CSS BARU
     function renderHistoryList(filter = '') {
         const history = loadHistory();
         const listsToUpdate = [desktopHistoryListEl];
@@ -380,7 +307,6 @@ function showDeleteConfirmModal(id, name) {
 
             history.forEach(h => {
                 const nameLower = (h.nama || '').toLowerCase();
-                // Menggabungkan beberapa field untuk pencarian
                 const formulaLower = (h.answer?.rumus_molekul || '').toLowerCase();
                 const riskLower = (h.answer?.tingkat_risiko_keselamatan || '').toLowerCase();
                 const descLower = ((h.answer?.deskripsi || '') + ' ' + (h.answer?.justifikasi_ringkas || '')).toLowerCase();
@@ -389,7 +315,7 @@ function showDeleteConfirmModal(id, name) {
 
                 historyCount++;
                 const li = document.createElement('li');
-                li.className = 'history-item-card'; // Kelas baru untuk styling card
+                li.className = 'history-item-card'; 
                 li.dataset.id = h.id;
 
                 const date = new Date(h.timestamp);
@@ -428,9 +354,7 @@ function showDeleteConfirmModal(id, name) {
                     </div>
                 `;
 
-                // click pada seluruh li (kecuali area tombol) -> lihat
                 li.addEventListener('click', (e) => {
-                    // Pastikan klik tidak berasal dari tombol aksi
                     if (e.target.closest('.btn-history-view') || e.target.closest('.btn-history-delete')) {
                         return;
                     }
@@ -443,10 +367,8 @@ function showDeleteConfirmModal(id, name) {
                     viewHistoryItem(h.id);
                 });
 
-                // REVISI: Mengganti confirm() dengan modal kustom
                 li.querySelector('.btn-history-delete').addEventListener('click', (e) => {
                     e.stopPropagation();
-                    // Panggil modal konfirmasi kustom
                     showDeleteConfirmModal(h.id, h.nama);
                 });
 
@@ -458,7 +380,6 @@ function showDeleteConfirmModal(id, name) {
             }
         });
 
-        // Sinkronkan input search setelah render
         if (mobileHistorySearchInput && query) mobileHistorySearchInput.value = query;
         if (desktopHistorySearchInput && query) desktopHistorySearchInput.value = query;
     }
@@ -470,20 +391,14 @@ function showDeleteConfirmModal(id, name) {
         if (!h) return showCustomModal('Tidak ditemukan', 'Data riwayat tidak ada.', 'error');
 
         if (historyModal) historyModal.style.display = "none";
-        if (closePopup) closePopup.style.display = "flex"; // Pastikan tombol tutup terlihat saat hasil ditampilkan
+        if (closePopup) closePopup.style.display = "flex"; 
 
         currentRecommendation = h.answer; 
-        // currentCompoundData tidak disentuh (diasumsikan menggunakan data form saat ini untuk refine)
 
-        popup.querySelector('.popup-title').textContent = `🕘 Riwayat: ${h.nama}`;
-        // Flag isHistory di set true agar tidak tersimpan lagi ke riwayat
-        // Flag isSaved di set true agar tombol save tersembunyi
+        popup.querySelector('.popup-title').textContent = `Riwayat: ${h.nama}`;
         showResultPopup({ answer: h.answer }, false, true, true); 
     }
 
-    // ==================================================================
-    // EVENT LISTENER UTAMA
-    // ==================================================================
     if (form) {
         form.addEventListener("submit", function (e) {
             e.preventDefault();
@@ -504,11 +419,10 @@ function showDeleteConfirmModal(id, name) {
         });
     }
 
-    // NEW: HISTORY MODAL EVENT
     if (btnToggleHistory) {
         btnToggleHistory.addEventListener("click", () => {
             if (historyModal) {
-                renderHistoryList(mobileHistorySearchInput ? mobileHistorySearchInput.value : ''); // Re-render list saat dibuka
+                renderHistoryList(mobileHistorySearchInput ? mobileHistorySearchInput.value : ''); 
                 historyModal.style.display = "flex";
             }
         });
@@ -524,9 +438,8 @@ function showDeleteConfirmModal(id, name) {
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
             if (popup && popup.style.display === "flex") {
-                 // Cek apakah ini modal kustom yang harus di-handle oleh tombolnya (misalnya Hapus)
                 if (document.getElementById("confirmDeleteBtn") || document.getElementById("closeModalBtn")) {
-                    return; // Biarkan user klik tombol Batal/OK
+                    return; 
                 }
                 popup.style.display = "none";
             } else if (historyModal && historyModal.style.display === "flex") {
@@ -535,9 +448,6 @@ function showDeleteConfirmModal(id, name) {
         }
     });
 
-    // ==================================================================
-    // EVENT LISTENER: POPUP ACTION
-    // ==================================================================
     if (popup) {
         popup.addEventListener("click", (e) => {
             const id = e.target.id;
@@ -555,23 +465,19 @@ function showDeleteConfirmModal(id, name) {
                 const dataFromForm = collectData(); 
                 
                 const refineData = {
-                    ...dataFromForm, // Kirim input form saat ini
+                    ...dataFromForm, 
                     currentRecommendation: currentRecommendation,
                     feedback: text,
                 };
-                // Tutup popup hasil
                 popup.style.display = "none"; 
-                 if (closePopup) closePopup.style.display = "flex"; // Pastikan tombol tutup kembali normal
-                // Mulai proses generate ulang
+                 if (closePopup) closePopup.style.display = "flex"; 
                 collectAndProcessData(ENDPOINT_REFINE, refineData);
             }
 
-            // SAVE
             if (id === "saveResultBtn") {
                 if (!currentRecommendation)
                     return showCustomModal("Gagal", "Tidak ada rekomendasi.", "error");
                 
-                // Pastikan tombol SAVE hanya muncul jika belum pernah disimpan ke Local History
                 if (currentRecommendation.isSaved) {
                     return showCustomModal("Sudah Tersimpan", "Senyawa ini sudah disimpan ke riwayat dan database (jika API berhasil).", "error");
                 }
@@ -579,30 +485,24 @@ function showDeleteConfirmModal(id, name) {
                 handleSaveResult(currentRecommendation);
             }
 
-            // NEW SESSION
-            if (id === "newChatBtn" || id === "newChatBtn.icon") { // Tambahkan icon jika perlu
+            if (id === "newChatBtn" || id === "newChatBtn.icon") { 
                 if (form) form.reset();
                 currentCompoundData = null;
                 currentRecommendation = null;
                 popup.style.display = "none";
-                 if (closePopup) closePopup.style.display = "flex"; // Pastikan tombol tutup kembali normal
+                 if (closePopup) closePopup.style.display = "flex"; 
             }
 
-            // CLOSE MODAL
             if (id === "closeModalBtn") {
                 popup.style.display = "none";
-                if (closePopup) closePopup.style.display = "flex"; // Tampilkan kembali tombol tutup
+                if (closePopup) closePopup.style.display = "flex"; 
 
                 if (e.target.textContent === "Selesai") {
-                    // Aksi setelah Save Berhasil: Reset form
                     if (form) form.reset();
                     currentCompoundData = null;
                     currentRecommendation = null;
                 } else if (e.target.textContent === "OK") {
-                    // Aksi setelah Error / Close
                     if (currentRecommendation && !currentRecommendation.isSaved) {
-                        // Tampilkan ulang hasil generate terakhir jika bukan Save Selesai
-                        // Jika ada currentRecommendation dan belum disave, tampilkan ulang.
                         showResultPopup({ answer: currentRecommendation }, true);
                     }
                 }
@@ -610,9 +510,6 @@ function showDeleteConfirmModal(id, name) {
         });
     }
 
-    // ==================================================================
-    // FUNGSI: COLLECT DATA FORM
-    // ==================================================================
     function collectData() {
         const data = {};
 
@@ -648,19 +545,14 @@ function showDeleteConfirmModal(id, name) {
         return data;
     }
 
-    // ==================================================================
-    // FUNGSI: TAMPILKAN HASIL (MODIFIKASI UNTUK STRUKTUR)
-    // ==================================================================
-    // Tambahkan parameter isSaved untuk history item
     function showResultPopup(apiResult, isRefinement = false, isHistory = false, isSaved = false) {
         if (!popup || !popupContent) return;
 
         clearInterval(progressInterval);
-        if (closePopup) closePopup.style.display = "flex"; // Tampilkan tombol tutup 'X'
+        if (closePopup) closePopup.style.display = "flex"; 
 
         const c = apiResult.answer;
         
-        // Simpan rekomendasi saat ini dan flag status save
         currentRecommendation = c;
         if (currentRecommendation) {
             currentRecommendation.isSaved = isSaved;
@@ -670,7 +562,7 @@ function showDeleteConfirmModal(id, name) {
 
         let titleText = "Hasil Generate Ditemukan!";
         if (isHistory) {
-             // Biarkan title dari viewHistoryItem
+             // 
         } else if (isRefinement) {
             titleText = "✨ Rekomendasi Diperbarui!";
         } else {
@@ -681,11 +573,9 @@ function showDeleteConfirmModal(id, name) {
         const riskValue = String(c?.tingkat_risiko_keselamatan || "N/A");
         const riskClass = `risk-${riskValue.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
 
-        // Tentukan apakah tombol Save akan ditampilkan
         const saveBtnDisplay = currentRecommendation?.isSaved ? 'display: none;' : '';
         const saveBtnText = currentRecommendation?.isSaved ? 'Disimpan' : 'Save & Selesai';
 
-        // HTML Content for the popup
         popupContent.innerHTML = `
             <div class="result-header">
                 <h3>Senyawa Rekomendasi:
@@ -757,7 +647,6 @@ function showDeleteConfirmModal(id, name) {
             </div>
         `;
 
-        // *** LOGIKA PENTING: Panggil fungsi render struktur setelah HTML dimuat ***
         if (c?.rumus_struktur_smiles) {
             renderCompoundStructure(c.rumus_struktur_smiles, 'compoundStructureCanvas');
         }
@@ -765,9 +654,6 @@ function showDeleteConfirmModal(id, name) {
         popup.style.display = "flex";
     }
 
-    // ==================================================================
-    // FUNGSI: CALL API GENERATE / REFINE
-    // ==================================================================
     async function collectAndProcessData(endpoint, dataToSend) {
         if (endpoint === ENDPOINT_GENERATE) {
             currentCompoundData = dataToSend;
@@ -794,15 +680,13 @@ function showDeleteConfirmModal(id, name) {
                 throw new Error("Respons API tidak valid");
 
             if (endpoint === ENDPOINT_REFINE) {
-                // Simpan data form terbaru setelah refine
                 currentCompoundData = collectData(); 
             }
 
-            // Hasil Generate/Refine (isSaved = false secara default)
             showResultPopup(result, endpoint === ENDPOINT_REFINE, false, false);
 
         } catch (err) {
-            // Handle error, tampilkan pop up error
+
             popupContent.innerHTML = `
                 <h3>❌ Gagal Generate Senyawa</h3>
                 <p>${escapeHtml(err.message)}</p>
@@ -812,7 +696,7 @@ function showDeleteConfirmModal(id, name) {
             `;
 
             popup.querySelector(".popup-title").textContent = "Error";
-            if (closePopup) closePopup.style.display = "none"; // Sembunyikan 'X'
+            if (closePopup) closePopup.style.display = "none"; 
             popup.style.display = "flex";
 
         } finally {
@@ -820,9 +704,6 @@ function showDeleteConfirmModal(id, name) {
         }
     }
 
-    // ==================================================================
-    // FUNGSI: SIMPAN DATA
-    // ==================================================================
     async function handleSaveResult(data) {
         if (!data)
             return showCustomModal("Gagal", "Tidak ada data untuk disimpan.", "error");
@@ -847,11 +728,9 @@ function showDeleteConfirmModal(id, name) {
 
             const result = await res.json();
             
-            // *** LOGIKA KRITIS: Tambahkan ke riwayat lokal hanya jika API Save berhasil ***
             addToHistory(data.nama_senyawa, data);
-            renderHistoryList(); // Update tampilan sidebar/modal history
+            renderHistoryList(); 
             
-            // Update status save di currentRecommendation
             if (currentRecommendation) {
                 currentRecommendation.isSaved = true;
             }
@@ -863,15 +742,8 @@ function showDeleteConfirmModal(id, name) {
         }
     }
 
-    
-    // ==================================================================
-    // INISIALISASI
-    // ==================================================================
     renderHistoryList();
 
-    // ==================================================================
-    // HELPERS
-    // ==================================================================
     function escapeHtml(unsafe) {
         if (unsafe === null || unsafe === undefined) return '';
         return String(unsafe)

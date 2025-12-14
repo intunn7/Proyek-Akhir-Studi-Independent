@@ -1,3 +1,5 @@
+/* eslint-disable no-empty */
+/* eslint-disable no-unused-vars */
 document.addEventListener("DOMContentLoaded", function () {
   var key = "seenTransition_v1";
   var seen = localStorage.getItem(key);
@@ -15,22 +17,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // kick off a staged animation sequence
+  
   function startSequence(delayShort) {
-    // small delay to allow paint
+    
     setTimeout(function () {
-      // trigger internal animations (logo draw, texts)
+      
       overlay.classList.add("pt-start");
 
-      // start sweep and spawn particles for visual interest
+      
       overlay.classList.add("sweep-active");
       var generated = generateParticles(overlay, 10);
 
-      // After logo draw, slide the overlay off to the left to reveal page
+      
       setTimeout(function () {
         overlay.classList.add("slide-off-left");
 
-        // cleanup after slide completes
+        
         setTimeout(function () {
           cleanupParticles(overlay);
           removeOverlay();
@@ -51,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (var i = 0; i < count; i++) {
       var dot = document.createElement("span");
       dot.className = "pt-dot";
-      var left = 10 + Math.random() * 80; // percentage
+      var left = 10 + Math.random() * 80; 
       var top = 40 + Math.random() * 40;
       dot.style.left = left + "%";
       dot.style.top = top + "%";
@@ -68,12 +70,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!container) return;
     var wrap = container.querySelector(".pt-particles");
     if (!wrap) return;
-    // fade and remove
+    
     wrap.parentNode && wrap.parentNode.removeChild(wrap);
   }
 
-  // Create mosaic tiles inside container and animate them.
-  // returns estimated max stagger time (ms)
+  
   function generateMosaic(container, cols, rows, clickX, clickY, durationMs) {
     cleanupMosaic(container);
     var wrap = document.createElement("div");
@@ -89,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (var c = 0; c < cols; c++) {
         var t = document.createElement("div");
         t.className = "mosaic-tile";
-        // compute tile center
+        
         var tileWidth = vw / cols;
         var tileHeight = vh / rows;
         var cx = (c + 0.5) * tileWidth;
@@ -102,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    // compute max dist for normalization
+    
     var maxDist = 0;
     tiles.forEach(function (it) {
       if (it.dist > maxDist) maxDist = it.dist;
@@ -111,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
       700,
       Math.round((maxDist / Math.max(vw, vh)) * 900)
     );
-    // animate tiles with stagger based on distance (closest first)
+    
     tiles.sort(function (a, b) {
       return a.dist - b.dist;
     });
@@ -120,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
       item.el.style.transitionDelay = delay + "ms";
       item.el.style.transitionDuration =
         Math.max(380, Math.round(durationMs * 0.6)) + "ms";
-      // trigger showing a little after insertion
+      
       setTimeout(function () {
         item.el.classList.add("show");
       }, 20 + delay);
@@ -135,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (!seen) {
-    // first visit: longer, more dramatic
+    
     document.documentElement.classList.add("no-scroll");
     document.body.classList.add("no-scroll");
     startSequence(900);
@@ -143,20 +144,19 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.setItem(key, "1");
     } catch (e) {}
   } else {
-    // repeat visits: keep animation subtle and brief
+    
     document.documentElement.classList.add("no-scroll");
     document.body.classList.add("no-scroll");
     startSequence(220);
   }
 
-  // Exposed helper to navigate with an exit transition.
-  // Usage: window.navigateWithTransition(url, durationMs)
+  
   window.navigateWithTransition = function (url, durationMs, variant, opts) {
     durationMs = typeof durationMs === "number" ? durationMs : 600;
     variant = variant || "slide";
     opts = opts || {};
 
-    // create or reuse exit overlay
+    
     var exitOverlay = document.getElementById("page-exit-overlay");
     if (!exitOverlay) {
       exitOverlay = document.createElement("div");
@@ -170,9 +170,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.documentElement.classList.add("no-scroll");
     document.body.classList.add("no-scroll");
 
-    // Choose behavior by variant
+    
     if (variant === "reveal") {
-      // circular reveal from click point (opts.x, opts.y)
+      
       var x = typeof opts.x === "number" ? opts.x : window.innerWidth / 2;
       var y = typeof opts.y === "number" ? opts.y : window.innerHeight / 2;
       var vw = Math.max(
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
       exitOverlay.classList.add("sweep-active");
       generateParticles(exitOverlay, 10);
 
-      // force reflow
+      
       void exitOverlay.offsetWidth;
 
       exitOverlay.style.transition =
@@ -208,14 +208,14 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // special: mosaic (tile) variant handled separately
+    
     if (variant === "mosaic") {
       exitOverlay.classList.add("mosaic-overlay");
-      // decide grid size based on viewport
+      
       var cols = Math.max(8, Math.round(window.innerWidth / 80));
       var rows = Math.max(6, Math.round(window.innerHeight / 80));
       exitOverlay.style.opacity = "1";
-      // create tiles and animate
+      
       var longest = generateMosaic(
         exitOverlay,
         cols,
@@ -230,13 +230,13 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // default: slide (from right)
+    
     exitOverlay.classList.add("sweep-active");
     generateParticles(exitOverlay, 8);
     exitOverlay.style.transform = "translateX(120%)";
     exitOverlay.style.opacity = "1";
 
-    // force reflow
+    
     void exitOverlay.offsetWidth;
 
     exitOverlay.style.transition =
@@ -250,5 +250,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }, durationMs);
   };
 
-  // SPA-related navigation removed: this file now performs full-page navigations
+  
 });

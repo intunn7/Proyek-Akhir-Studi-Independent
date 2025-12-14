@@ -1,7 +1,6 @@
-/* ===== COLORS & FONTS (New Variables based on landing page) ===== */
+
 :root {
-    /* Perhatikan: setiap deklarasi variabel harus diakhiri titik koma */
-    /* Colors from Landing Page (Blue Neon Theme) */
+   
     --color-dark-bg: #000000;
     --color-darker-bg: #0a0a0a;
     --color-card-bg: #111111;
@@ -14,19 +13,19 @@
     --color-border-dark: rgba(255, 255, 255, 0.1);
     --color-hover-bg: rgba(0, 191, 255, 0.1);
 
-    /* Custom Colors for Iterative Flow */
+    
     --color-save: #1abc9c;
-    /* Hijau Teal yang elegan */
+    
     --color-refine: #00bfff;
-    /* Neon Blue */
+    
     --color-reset: #e74c3c;
-    /* Merah */
+    
 
     --color-success: #2ecc71;
     --color-error: #e74c3c;
 }
 
-/* ===== GENERAL LAYOUT ===== */
+
 * {
     margin: 0;
     padding: 0;
@@ -46,7 +45,7 @@ body {
     min-height: 100vh;
 }
 
-/* 🔵 Styling Tombol "Lihat" (View) - Warna BIRU */
+
 .btn-history-view {
     padding: 6px 12px;
     border: none;
@@ -56,14 +55,14 @@ body {
     transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
     font-size: 0.85rem;
     white-space: nowrap;
-    /* Biru Utama */
+    
     background-color: var(--color-accent-blue-mid);
     color: white;
     box-shadow: 0 1px 3px rgba(0, 191, 255, 0.3);
 }
 
 .btn-history-view:hover {
-    /* Biru Lebih Gelap */
+   
     background-color: var(--color-accent-blue-neon);
     color: var(--color-dark-bg);
     box-shadow: 0 2px 5px rgba(0, 191, 255, 0.6);
@@ -75,11 +74,11 @@ body {
     transform: translateY(0);
 }
 
-/* 🔴 Styling Tombol "Hapus" (Delete) - PERBAIKAN: Menjadi Dark/Accent Merah */
+
 .btn-history-delete {
     padding: 6px 12px;
     border: 1px solid var(--color-error);
-    /* Border Merah untuk identifikasi */
+    
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
@@ -87,16 +86,16 @@ body {
     font-size: 0.85rem;
     white-space: nowrap;
 
-    /* GANTI DARI MERAH CERAH KE BACKGROUND GELAP */
+    
     background-color: var(--color-sidebar-bg);
-    /* Latar belakang gelap */
+    
     color: var(--color-error);
-    /* Teks Merah */
+    
     box-shadow: 0 1px 3px rgba(220, 53, 69, 0.3);
 }
 
 .btn-history-delete:hover {
-    /* MERAH Lebih gelap saat hover */
+    
     background-color: rgba(220, 53, 69, 0.1);
     box-shadow: 0 2px 5px rgba(220, 53, 69, 0.6);
     transform: translateY(-1px);
@@ -107,9 +106,7 @@ body {
     transform: translateY(0);
 }
 
-/* ========================================================================== */
-/* ████  SIDEBAR  ████ */
-/* ========================================================================== */
+
 
 .sidebar-container {
     width: 300px;
@@ -124,9 +121,7 @@ body {
 }
 
 
-/* ===============================
-  Search bar
-================================ */
+
 .history-search-wrapper {
     display: flex;
     gap: 6px;
@@ -167,9 +162,7 @@ body {
 }
 
 
-/* ========================================================================== */
-/* ████  HISTORY LIST — CARD STYLE  ████ */
-/* ========================================================================== */
+
 
 .history-section {
     overflow-y: auto;
@@ -186,7 +179,7 @@ body {
     padding-left: 0;
 }
 
-/* Card Style */
+
 .history-item-card {
     background: linear-gradient(145deg, #0c0c0c, #101010);
     border: 1px solid #1f1f1f;
@@ -215,7 +208,7 @@ body {
     gap: 10px;
 }
 
-/* Hapus ikon: history-icon-box tetap ada tapi dikosongkan */
+
 .history-icon-box {
     font-size: 1.5rem;
     width: 0;
@@ -247,7 +240,7 @@ body {
     margin-top: 4px;
 }
 
-/* --- BARU: Info Bar (Score, Date, Risk - Selalu terlihat) --- */
+
 .history-info-bar {
     display: flex;
     justify-content: space-between;
@@ -265,11 +258,11 @@ body {
 
 .score-badge {
     color: #ffcc00;
-    /* Kuning emas */
+    
     font-weight: 500;
 }
 
-/* Badge Risiko */
+
 .risk-badge {
     padding: 2px 6px;
     border-radius: 4px;
@@ -278,22 +271,22 @@ body {
     color: var(--color-dark-bg);
 }
 
-/* PERBAIKAN WARNA MERAH */
+
 .risk-tinggi {
     background-color: var(--color-reset);
-    /* Merah yang sudah didefinisikan (e74c3c) */
+    
     color: white;
 }
 
 .risk-sedang {
     background-color: #f39c12;
-    /* Oranye */
+    
     color: var(--color-dark-bg);
 }
 
 .risk-rendah {
     background-color: #2ecc71;
-    /* Hijau */
+   
     color: white;
 }
 
@@ -302,17 +295,17 @@ body {
     color: var(--color-dark-bg);
 }
 
-/* GAYA ACTION GROUP - Sembunyikan aksi di awal */
+
 .history-actions-group {
-    /* Hanya berisi tombol Lihat dan Hapus */
+    
     display: flex;
     justify-content: flex-end;
-    /* Pindah ke kanan */
+    
     gap: 10px;
     padding-top: 5px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 
-    /* NEW: Sembunyikan aksi secara default (di desktop) */
+    
     height: 0;
     overflow: hidden;
     opacity: 0;
@@ -320,7 +313,7 @@ body {
 }
 
 .history-item-card:hover .history-actions-group {
-    /* NEW: Tampilkan aksi saat card di-hover (desktop) */
+    
     opacity: 1;
     height: auto;
 }
@@ -331,7 +324,7 @@ body {
 }
 
 
-/* Custom scrollbar */
+
 .chat-history-list::-webkit-scrollbar {
     width: 6px;
 }
@@ -345,12 +338,6 @@ body {
     background: transparent;
 }
 
-
-/* ========================================================== */
-/* NEW: RESPONSIVE & HISTORY MODAL STYLES */
-/* ========================================================== */
-
-/* Pastikan history modal TIDAK terlihat di desktop, meskipun ada di HTML */
 #historyModal {
     display: none;
     opacity: 0;
@@ -358,10 +345,10 @@ body {
 }
 
 
-/* 1. Header untuk Mobile */
+
 .main-header-bar {
     display: none;
-    /* Default: Sembunyikan di desktop */
+    
     background-color: var(--color-sidebar-bg);
     padding: 15px 20px;
     justify-content: space-between;
@@ -391,9 +378,9 @@ body {
     background-color: #3876c1;
 }
 
-/* 2. History Modal (Popup Riwayat di Mobile) */
+
 .history-modal .popup-box {
-    /* Gaya untuk layar penuh di mobile */
+    
     width: 95%;
     max-width: 600px;
     max-height: 95vh;
@@ -408,7 +395,7 @@ body {
 
 .modal-history-list {
     flex-grow: 1;
-    /* Agar list mengisi ruang yang tersisa */
+    
     padding-right: 5px;
     overflow-y: auto;
     margin-top: 15px;
@@ -416,10 +403,10 @@ body {
 
 .modal-search {
     margin-bottom: 0px !important;
-    /* Overwrite margin di sidebar */
+   
 }
 
-/* ===== MAIN CONTENT (Standard Styling) ===== */
+
 .main-content {
     flex: 2;
     padding: 32px 48px;
@@ -506,7 +493,7 @@ body {
     color: var(--color-text-secondary);
 }
 
-/* ===== EXCLAMATION ICON & TOOLTIP (Standard Styling) ===== */
+
 .info-wrapper {
     position: relative;
     display: inline-flex;
@@ -543,11 +530,6 @@ body {
     color: var(--color-text-light);
 }
 
-/* ===== BUTTONS (Generate/Back) */
-/* --- Tombol Aksi di Result Popup --- */
-/* (Kode ini dipindah ke bawah agar dekat dengan styling modal) */
-
-/* ===== BUTTONS (Generate/Back) */
 .generate-button-wrapper {
     display: flex;
     justify-content: space-between;
@@ -601,10 +583,10 @@ body {
     justify-content: center;
     gap: 8px;
     width: 150px;
-    /* Lebar yang lebih proporsional untuk tombol OK/Selesai/Hapus */
+    
 }
 
-/* Style Modal Container */
+
 .custom-modal-content {
     display: flex;
     flex-direction: column;
@@ -614,15 +596,15 @@ body {
     min-height: 100px;
 }
 
-/* BARU: Style untuk Modal Konfirmasi Hapus */
+
 .delete-confirm-content {
-    padding: 15px; /* Sedikit lebih besar dari 10px */
+    padding: 15px; 
     border: 1px dashed var(--color-error);
     border-radius: 8px;
     width: 90%;
     max-width: 400px;
     margin: 20px auto 0;
-    background-color: #1a0a0a; /* Latar belakang gelap untuk kontras */
+    background-color: #1a0a0a; 
 }
 
 .delete-confirm-content p {
@@ -631,10 +613,10 @@ body {
     margin-top: 5px;
 }
 
-/* Tombol Hapus Permanen di Modal */
+
 .btn-delete {
     background-color: var(--color-reset);
-    /* Merah */
+    
     color: white;
     width: 150px;
     border: none; 
@@ -642,10 +624,10 @@ body {
 
 .btn-delete:hover {
     background-color: #c82333;
-    box-shadow: 0 0 10px rgba(220, 53, 69, 0.5); /* Efek neon merah */
+    box-shadow: 0 0 10px rgba(220, 53, 69, 0.5); 
 }
 
-/* Style untuk Tombol Batal di Modal Hapus */
+
 .result-actions #cancelDeleteBtn:hover {
     background-color: var(--color-input-bg) !important;
     border: 1px solid var(--color-accent-blue-neon) !important;
@@ -653,9 +635,7 @@ body {
 }
 
 
-/* ========================================================== */
-/* GENERATE RESULT POPUP STYLES */
-/* ========================================================== */
+
 
 .popup-overlay {
     display: flex;
@@ -681,7 +661,7 @@ body {
     padding: 20px 25px;
 }
 
-/* --- Posisi Tombol Tutup --- */
+
 .popup-box .popup-close {
     background: var(--color-reset);
     color: #fff;
@@ -701,7 +681,7 @@ body {
     z-index: 60;
 }
 
-/* --- General Popup Content Layout --- */
+
 .popup-box h2.popup-title {
     color: var(--color-accent-blue-neon);
     text-align: center;
@@ -711,7 +691,7 @@ body {
     padding-top: 10px;
 }
 
-/* --- Result Sections --- */
+
 .result-header {
     background-color: var(--color-card-bg);
     padding: 15px;
@@ -789,7 +769,7 @@ body {
     padding-left: 10px;
 }
 
-/* --- Safety Risk Styling --- */
+
 .risk-level {
     padding: 2px 8px;
     border-radius: 4px;
@@ -840,7 +820,7 @@ body {
     margin-bottom: 10px;
 }
 
-/* STYLING INPUT TEXT FIELD */
+
 #resultPopup .feedback-input {
     width: 100%;
     padding: 14px;
@@ -864,7 +844,7 @@ body {
 }
 
 
-/* --- Tombol Aksi di Result Popup --- */
+
 #resultPopup .result-actions {
     display: flex;
     justify-content: space-between;
@@ -881,7 +861,7 @@ body {
     align-items: center;
 }
 
-/* Gaya dasar tombol aksi */
+
 #resultPopup .btn-action {
     padding: 8px 14px;
     border: none;
@@ -895,7 +875,7 @@ body {
     gap: 8px;
 }
 
-/* Tombol GENERATE REKOMENDASI ULANG (Refine) */
+
 #resultPopup .btn-refine {
     background-color: var(--color-refine);
     color: var(--color-dark-bg);
@@ -906,7 +886,7 @@ body {
     color: var(--color-text-light);
 }
 
-/* Tombol SAVE & SELESAI (Finalisasi) */
+
 #resultPopup .btn-save {
     background-color: var(--color-save);
     color: white;
@@ -916,7 +896,7 @@ body {
     background-color: #16a085;
 }
 
-/* Tombol MULAI SESI BARU (Reset) */
+
 #resultPopup .btn-reset-form {
     background-color: transparent;
     color: var(--color-text-secondary);
@@ -931,7 +911,7 @@ body {
     color: var(--color-accent-blue-neon);
 }
 
-/* --- Progress Display Styles (Digunakan untuk loading generate) --- */
+
 #ai-progress-display {
     padding: 10px 0;
 }
@@ -1010,7 +990,7 @@ body {
     }
 }
 
-/* Gaya untuk Popup saat Error */
+
 .error-state {
     background-color: #3b1f1f;
     border: 1px solid var(--color-reset);
@@ -1018,7 +998,7 @@ body {
 }
 
 
-/* --- Gaya untuk Progres AI --- */
+
 #ai-progress-display {
     padding: 10px 0;
 }
@@ -1048,7 +1028,7 @@ body {
     border-left: 3px solid var(--color-accent-blue-neon);
 }
 
-/* TAMBAHAN AKSI LANJUTAN (Loading Spinner & Custom Modal) */
+
 .btn-modal-action {
     padding: 10px 18px;
     border: none;
@@ -1062,10 +1042,10 @@ body {
     justify-content: center;
     gap: 8px;
     width: 150px;
-    /* Lebar yang lebih proporsional untuk tombol OK/Selesai/Hapus */
+    
 }
 
-/* Style Modal Container */
+
 .custom-modal-content {
     display: flex;
     flex-direction: column;
@@ -1075,7 +1055,7 @@ body {
     min-height: 100px;
 }
 
-/* BARU: Style untuk Modal Konfirmasi Hapus */
+
 .delete-confirm-content {
     padding: 10px;
     border: 1px dashed var(--color-error);
@@ -1091,10 +1071,10 @@ body {
     margin-top: 5px;
 }
 
-/* Tombol Hapus Permanen di Modal */
+
 .btn-delete {
     background-color: var(--color-reset);
-    /* Merah */
+    
     color: white;
     width: 150px;
 }
@@ -1104,7 +1084,7 @@ body {
 }
 
 
-/* Style Spinner */
+
 .loading-spinner {
     border: 4px solid rgba(255, 255, 255, 0.1);
     border-top: 4px solid var(--color-accent-blue-neon);
@@ -1125,7 +1105,7 @@ body {
     }
 }
 
-/* Gaya untuk Popup saat Error */
+
 .error-state {
     background-color: #3b1f1f;
     border: 1px solid var(--color-error);
@@ -1133,7 +1113,7 @@ body {
 }
 
 
-/* ===== RESPONSIVE DESIGN (Final) ===== */
+
 @media (max-width: 992px) {
     .app-wrapper {
         flex-direction: column;
@@ -1141,19 +1121,19 @@ body {
         min-height: 100vh;
     }
 
-    /* Tampilkan History Modal di Mobile */
+    
     #historyModal {
         opacity: 1;
         z-index: 55;
     }
 
-    /* 1. Sembunyikan Sidebar */
+    
     .sidebar-container {
         display: none;
         width: 100%;
     }
 
-    /* 2. Tampilkan Header Mobile */
+    
     .main-header-bar {
         display: flex;
         position: sticky;
@@ -1161,14 +1141,14 @@ body {
         z-index: 10;
     }
 
-    /* 3. Perbaikan Main Content */
+    
     .main-content {
         padding: 24px;
         flex: 1;
         overflow-y: visible;
     }
 
-    /* 4. Column Layout untuk Input */
+    
     .input-row {
         flex-direction: column;
     }
@@ -1177,18 +1157,18 @@ body {
         flex: 1;
     }
 
-    /* FIX: Di Mobile, tampilkan grup aksi secara permanen */
+    
     .history-actions-group {
-        /* OVERRIDE untuk MOBILE: Selalu terlihat, tidak perlu hover */
+        
         display: flex !important;
-        /* Pastikan dia di-override dari display: none di hover */
+       
         opacity: 1 !important;
         height: auto !important;
         padding-top: 10px !important;
         margin-top: 5px;
         border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
         justify-content: space-around;
-        /* Agar tombol terpisah */
+       
         gap: 10px;
     }
 
@@ -1219,14 +1199,14 @@ body {
         gap: 12px;
     }
 
-    /* Popup di layar kecil */
+    
     .popup-box {
         width: 95%;
         max-width: 95%;
         padding: 18px;
     }
 
-    /* Penempatan Tombol di Mobile (Vertical Stack) */
+    
     .result-actions {
         flex-direction: column;
         gap: 10px;
@@ -1246,7 +1226,7 @@ body {
 
     .btn-modal-action {
         width: 100%;
-        /* Tombol di modal juga full width */
+        
     }
 
     .btn-delete {
@@ -1258,7 +1238,7 @@ body {
         margin: 10px 0 0 0;
     }
 
-    /* Perbaikan Modal Hapus di Mobile */
+    
     .delete-confirm-content {
         width: 100%;
         max-width: none;
@@ -1267,7 +1247,7 @@ body {
 
 @media (max-width: 480px) {
 
-    /* Header di mobile sangat kecil */
+    
     .main-header-bar {
         padding: 10px 15px;
     }

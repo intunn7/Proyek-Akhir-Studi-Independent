@@ -1,8 +1,6 @@
-# FILE: agent/generator_service.py (KODE LENGKAP DIPERBARUI)
-
 from langchain_core.documents import Document
 from .llm import get_llm_response
-import json # Diperlukan untuk memproses/mengembalikan JSON
+import json 
 
 SYSTEM_PROMPT = (
     "Anda adalah asisten AI yang ahli dalam Kimia. "
@@ -11,21 +9,12 @@ SYSTEM_PROMPT = (
     "Pastikan jawaban Anda akurat dan ringkas."
 )
 
-# --- FUNGSI BARU UNTUK GENERASI JSON DETAIL ---
-# Fungsi ini memisahkan tugas pencarian senyawa (RAG) dari tugas penalaran (LLM)
 def generate_detailed_json_answer(user_query: str, compound_name: str, all_raw_data: str) -> str:
     """
     Mengambil nama senyawa yang direkomendasikan dan memintanya untuk membuat
     output JSON lengkap berdasarkan data mentah.
     """
-    
-    # 1. TEMUKAN DATA MENTAH DARI DATABASE (SIMULASI)
-    # Karena kita tidak memiliki implementasi database sesungguhnya, 
-    # kita asumsikan all_raw_data adalah JSON string dari seluruh dataset.
-    
-    # (Di aplikasi asli, Anda akan query database Anda di sini)
-    
-    # Kriteria prompt yang sangat terstruktur
+
     prompt = f"""
     Senyawa target yang direkomendasikan adalah '{compound_name}'.
     
@@ -57,19 +46,10 @@ def generate_detailed_json_answer(user_query: str, compound_name: str, all_raw_d
     }}
     """
     
-    # Panggil LLM (Gemini Pro) dengan JSON forcing.
-    # Kita tidak menggunakan force_json=True di sini karena itu akan dilakukan di Orchestrator
-    # Tetapi kita HARUS memastikan LLM dipanggil dalam mode JSON.
-    # Kita akan memodifikasi get_llm_response di llm.py untuk menerima flag force_json.
-
-    # Kita panggil LLM, dan Orchestrator akan menangani JSON forcing
     answer = get_llm_response(prompt, force_json=True)
     return answer
 
-# (Fungsi generate_answer untuk RAG Pipeline tetap sama)
 def generate_answer(user_query: str, retrieved_documents: list[Document]) -> str:
-    # ... (kode generator_service.py yang lama untuk RAG Pipeline tetap sama)
-    # Ini akan dipanggil dari AgentOrchestrator jika force_json=False (endpoint /ask)
     context = "\n---\n".join([doc.page_content for doc in retrieved_documents])
     prompt = (
         f"{SYSTEM_PROMPT}\n\n"

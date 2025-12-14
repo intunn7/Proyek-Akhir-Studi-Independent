@@ -1,7 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-// FILE: perpustakaan_senyawa.js (FINAL BERSIH: Sudah Termasuk Toggle, Chart.js, dan DARK THEME FIX)
+
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 const ENDPOINT_GET_ALL = "/get_all_compounds";
@@ -10,14 +10,9 @@ let allCompoundsData = [];
 let categoryChartInstance = null;
 let riskChartInstance = null;
 
-// ===============================================
-// 🔥 FIX: KONFIGURASI GLOBAL CHART.JS (DARK THEME) 🔥
-// ===============================================
 
-// Ambil warna dari CSS Root Variables (asumsi warna Anda di CSS sama)
-const FONT_COLOR = 'rgb(255, 255, 255)'; // --color-text-light
-const GRID_COLOR = 'rgba(255, 255, 255, 0.1)'; // --color-border-dark
-
+const FONT_COLOR = 'rgb(255, 255, 255)'; 
+const GRID_COLOR = 'rgba(255, 255, 255, 0.1)'; 
 Chart.defaults.color = FONT_COLOR;
 Chart.defaults.borderColor = GRID_COLOR; 
 Chart.defaults.font.family = "'Roboto', Arial, sans-serif";
@@ -25,24 +20,24 @@ Chart.defaults.font.family = "'Roboto', Arial, sans-serif";
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById('searchInput');
     
-    // Tombol Utama
+    
     const toggleStatsBtn = document.getElementById('toggleStatsBtn');
     const addCompoundBtn = document.getElementById('addCompoundBtn'); 
     
-    // Container
+    
     const statsSection = document.getElementById('compoundStatsSection');
     const listContainer = document.getElementById('compoundListAndSearchContainer');
     const body = document.body;
 
     loadCompoundLibrary();
 
-    // Event listener untuk pencarian
+    
     searchInput.addEventListener('input', () => {
         const query = searchInput.value.toLowerCase();
         filterAndRenderCompounds(query);
     });
 
-    // --- LOGIKA TOGGLE & BUTTONS ---
+    
     
     function showList() {
         statsSection.style.display = 'none';
@@ -60,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Event Listener: Beralih antara Daftar dan Statistik
+    
     toggleStatsBtn.addEventListener('click', () => {
         if (listContainer.style.display !== 'none') {
             showStats(); 
@@ -69,19 +64,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     
-    // Event Listener: Tombol Tambah Senyawa
+    
     addCompoundBtn.addEventListener('click', () => {
         alert("TODO: Implementasi Form Input Senyawa. Redirect ke /ui/add_compound.html atau tampilkan modal form.");
     });
     
-    // Tampilan awal: Daftar Senyawa
+    
     showList(); 
 });
 
 
-// ===============================================
-// LOGIKA LOAD DATA & RENDER (Compound Grid)
-// ===============================================
+
+
 
 async function loadCompoundLibrary() {
     const compoundGrid = document.getElementById('compoundGrid');
@@ -166,9 +160,7 @@ function renderCompoundCards(compounds) {
     }
 }
 
-// ===============================================
-// LOGIKA POPUP DETAIL
-// ===============================================
+
 
 function showCompoundDetail(compound) {
     const popupOverlay = document.getElementById('compoundDetailPopup');
@@ -227,15 +219,13 @@ function showCompoundDetail(compound) {
     popupOverlay.style.display = 'flex';
 }
 
-// ===============================================
-// LOGIKA CHART.JS (STATISTIK)
-// ===============================================
+
 
 function calculateAndRenderCharts(compounds) {
     if (categoryChartInstance) categoryChartInstance.destroy();
     if (riskChartInstance) riskChartInstance.destroy();
     
-    // 1. Hitung Data Kategori Aplikasi
+    
     const categoryCounts = {};
     compounds.forEach(c => {
         const category = c.kategori_aplikasi || 'Lain-lain';
@@ -248,7 +238,7 @@ function calculateAndRenderCharts(compounds) {
         .sort(([, a], [, b]) => b - a)
         .slice(0, 5); 
 
-    // 2. Hitung Data Tingkat Risiko
+    
     const riskCounts = { Rendah: 0, Sedang: 0, Tinggi: 0, 'N/A': 0 };
     compounds.forEach(c => {
         const risk = (c.tingkat_risiko_keselamatan || 'N/A').trim();
@@ -274,7 +264,7 @@ function renderCategoryChart(data) {
             datasets: [{
                 label: 'Jumlah Senyawa',
                 data: data.map(d => d[1]),
-                // Menggunakan warna custom yang sesuai dengan tema terang/neon Anda
+                
                 backgroundColor: ['#00bfff', '#4a90e2', '#2ecc71', '#f39c12', '#e74c3c'], 
                 hoverOffset: 10
             }]
@@ -286,7 +276,7 @@ function renderCategoryChart(data) {
                 legend: {
                     position: 'right',
                     labels: { 
-                        color: FONT_COLOR // Mengambil dari setting global
+                        color: FONT_COLOR 
                     }
                 },
                 title: {
@@ -308,7 +298,7 @@ function renderRiskChart(data) {
             datasets: [{
                 label: 'Jumlah Senyawa',
                 data: Object.values(data),
-                // Menggunakan warna yang sesuai untuk Risiko (Hijau, Kuning, Merah, Abu)
+                
                 backgroundColor: ['#2ecc71', '#f39c12', '#e74c3c', '#95a5a6'],
             }]
         },

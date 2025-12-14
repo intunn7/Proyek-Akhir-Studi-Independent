@@ -1,9 +1,7 @@
-# FILE: main.py (KODE LENGKAP DIPERBAIKI DENGAN SEMUA MODEL DI BAGIAN ATAS)
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any # Diperlukan untuk typing
+from typing import List, Optional, Dict, Any 
 from agent.AgentOrchestrator import AgentOrchestrator
 from agent.rag import RAGEngine
 import json
@@ -18,7 +16,6 @@ app = FastAPI(title="ChemisTry Agentic RAG API")
 rag = RAGEngine()
 agent = AgentOrchestrator()
 
-# === CORS FIX 🔥 ===
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -32,13 +29,9 @@ def startup_event():
     print("--- STARTUP EVENT: Memulai Indexing RAG ---")
     try:
         rag.index_data() 
-        print("✅ RAG Engine initialized successfully via Startup Event")
+        print("RAG Engine initialized successfully via Startup Event")
     except Exception as e:
-        print(f"❌ Indexing error in startup: {e}")
-
-# ====================================================================
-# 🔥 INPUT MODELS (SEMUA MODEL DI SINI UNTUK MENGHINDARI NameError) 🔥
-# ====================================================================
+        print(f"Indexing error in startup: {e}")
 class QueryRequest(BaseModel):
     query: str
     feedback: str | None = ""
@@ -53,14 +46,10 @@ class CombineRequest(BaseModel):
     compound_a: str
     compound_b: str
 
-# 🔥 MODEL UNTUK REFINEMENT (ITERASI) 🔥
 class RefineRequest(GenerateRequest):
     currentRecommendation: Dict[str, Any] 
     feedback: str 
-# ====================================================================
 
-
-# --- TEMPLATE SKEMA OUTPUT DETAIL GENERATE (Sesuai skema data Anda) ---
 detailed_compound_template = {
     "nama_senyawa": "nama_senyawa", "rumus_molekul": "rumus_molekul", "berat_molekul": 0.0,
     "sinonim": "...", "deskripsi": "Deskripsi LLM yang merangkum properti, risiko, dan kecocokan.",
@@ -73,7 +62,6 @@ detailed_compound_template = {
     "justifikasi_ringkas": "1-2 kalimat mengapa senyawa ini paling cocok dengan kriteria yang diminta."
 }
 
-# --- TEMPLATE SKEMA OUTPUT RINGKAS COMBINE ---
 reaction_summary_template = {
     "reaktan_a": "nama_reaktan_a", "reaktan_b": "nama_reaktan_b", "jenis_reaksi": "Netralisasi/Redoks/Tidak Reaktif",
     "produk_utama": "Nama produk", "persamaan_stoikiometri": "Persamaan kimia yang seimbang.",
@@ -81,7 +69,6 @@ reaction_summary_template = {
 }
 
 
-# Helper untuk membuat prompt dari request
 def create_compound_prompt(req: GenerateRequest, feedback: str = None, previous_result: Dict[str, Any] = None):
     kriteria_prompt = "\n".join([
         f"- {key}: {value}" for key, value in req.propertiTarget.items()
@@ -100,7 +87,6 @@ def create_compound_prompt(req: GenerateRequest, feedback: str = None, previous_
     """
     
     if previous_result and feedback:
-        # Jika ini adalah iterasi (refinement)
         prompt += f"""
         ---
         REKOMENDASI SEBELUMNYA:
@@ -113,7 +99,6 @@ def create_compound_prompt(req: GenerateRequest, feedback: str = None, previous_
         Berdasarkan kriteria awal DAN perintah perbaikan di atas, carilah senyawa baru atau modifikasi justifikasi untuk senyawa yang lebih baik.
         """
     elif feedback:
-        # Jika ada feedback langsung di query awal (kasus jarang)
         prompt += f"\n\n**Perintah Tambahan/Feedback:** {feedback}"
         
     prompt += f"""
@@ -147,14 +132,12 @@ def ask(req: QueryRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# === ENDPOINT /generate (Panggilan Awal) ===
 @app.post("/generate", response_model=Dict[str, Any]) 
 def generate_compound(req: GenerateRequest):
     try:
         query = create_compound_prompt(req)
         result_json_str = agent.process_query(query, force_json=True) 
-        
-        # ... (Logika Error Handling dan Regex Extraction)
+
         if result_json_str.startswith("API_ERROR_429:"):
              raise HTTPException(status_code=429, detail=result_json_str)
         if result_json_str.startswith("API_ERROR:") or result_json_str.startswith("Terjadi kesalahan LLM"):
@@ -175,21 +158,17 @@ def generate_compound(req: GenerateRequest):
         raise HTTPException(status_code=500, detail=f"Internal Server Error (/generate): {str(e)}")
 
 
-# 🔥 ENDPOINT BARU: /refine (Iterasi Feedback) 🔥
 @app.post("/refine", response_model=Dict[str, Any])
 def refine_compound(req: RefineRequest):
     try:
-        # Gunakan fungsi helper dengan parameter feedback dan previous_result
         query = create_compound_prompt(
             req, 
             feedback=req.feedback, 
             previous_result=req.currentRecommendation
         )
-        
-        # Kirim ke LLM untuk regenerasi
+
         result_json_str = agent.process_query(query, force_json=True) 
 
-        # ... (Logika Error Handling dan Regex Extraction)
         if result_json_str.startswith("API_ERROR_429:"):
              raise HTTPException(status_code=429, detail=result_json_str)
         if result_json_str.startswith("API_ERROR:") or result_json_str.startswith("Terjadi kesalahan LLM"):
@@ -210,7 +189,6 @@ def refine_compound(req: RefineRequest):
         raise HTTPException(status_code=500, detail=f"Internal Server Error (/refine): {str(e)}")
 
 
-# 🔥 ENDPOINT BARU: /save_compound (Life Update Database) 🔥
 @app.post("/save_compound", response_model=Dict[str, str])
 async def save_compound(compound_data: Dict[str, Any]):
     """
@@ -218,31 +196,25 @@ async def save_compound(compound_data: Dict[str, Any]):
     memicu ingestion ulang (update live RAG).
     """
     try:
-        # 1. Load data yang sudah ada
         with open(DATA_FILE_PATH, 'r', encoding='utf-8') as f:
             data_list = json.load(f)
 
-        # 2. Tambahkan data senyawa baru
         compound_id = compound_data.get("nama_senyawa", "New_Compound_" + str(len(data_list)))
         compound_data["id"] = compound_id 
         data_list.append(compound_data)
 
-        # 3. Tulis kembali seluruh data ke file JSON
         with open(DATA_FILE_PATH, 'w', encoding='utf-8') as f:
             json.dump(data_list, f, indent=2, ensure_ascii=False)
-        
-        # 4. 🔥 PICU INGENTION ULANG (Live Update RAG) 🔥
+
         print("API: Memicu re-indexing RAG untuk live update...")
         rag.index_data()
         
         return {"status": "success", "message": f"Senyawa '{compound_id}' berhasil disimpan ke database dan RAG diupdate secara live."}
         
     except Exception as e:
-        # Jika terjadi error saat write file atau ingestion
         raise HTTPException(status_code=500, detail=f"Gagal menyimpan atau mengindeks ulang data: {str(e)}")
 
 
-# === ENDPOINT /combine (FIX JSON) ===
 @app.post("/combine", response_model=dict)
 def combine_compounds(req: CombineRequest):
     """Endpoint untuk memprediksi hasil penggabungan dua senyawa."""
@@ -250,7 +222,6 @@ def combine_compounds(req: CombineRequest):
     json_extracted_str = ""
     
     try:
-        # 1. & 2. Buat Query Reaksi dan Proses dengan agent
         query = f"""
         Anda adalah ahli kimia. Analisis interaksi antara senyawa: {req.compound_a} dan {req.compound_b}.
         
@@ -264,7 +235,6 @@ def combine_compounds(req: CombineRequest):
         
         result_json_str = agent.process_query(query, force_json=True)
 
-        # 🔥 PERBAIKAN CHECK 1: Deteksi API Error (SEBELUM parsing JSON)
         if result_json_str.startswith("API_ERROR_429:"):
              raise HTTPException(
                  status_code=429, 
@@ -276,7 +246,6 @@ def combine_compounds(req: CombineRequest):
                  detail=result_json_str
              )
         
-        # 3. Ekstraksi JSON MURNI menggunakan Regex
         match = re.search(r'\{.*\}', result_json_str, re.DOTALL)
         
         if not match:
@@ -284,7 +253,6 @@ def combine_compounds(req: CombineRequest):
         
         json_extracted_str = match.group(0).strip()
         
-        # 4. Parsing dan kembalikan JSON
         result_parsed = json.loads(json_extracted_str) 
 
         return {
@@ -296,7 +264,6 @@ def combine_compounds(req: CombineRequest):
         raise
         
     except json.JSONDecodeError as e:
-        # Logging error 500 jika parsing (setelah regex) masih gagal
         raw_start = result_json_str.strip()[:100] if result_json_str.strip() else "[Empty Response]"
         extracted_start = json_extracted_str[:100] if 'json_extracted_str' in locals() and json_extracted_str else "[Extraction Failed]"
         
@@ -309,7 +276,6 @@ def combine_compounds(req: CombineRequest):
 
 @app.get("/health")
 def health_check():
-    # Cek status RAG
     return {"status": "healthy", "rag_initialized": rag.is_indexed}
 
 @app.get("/get_all_compounds")

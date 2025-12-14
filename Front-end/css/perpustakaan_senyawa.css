@@ -1,4 +1,4 @@
-/* FILE: perpustakaan_senyawa.css (KODE FINAL DAN BERSIH) */
+
 
 :root {
     --color-dark-bg: #000000;
@@ -31,12 +31,12 @@ body {
     min-width: 0; 
 }
 
-/* FIX: Class untuk mengunci scrolling body saat popup aktif */
+
 .no-scroll {
     overflow: hidden !important;
 }
 
-/* FIX: Memaksa semua container level atas menggunakan lebar viewport */
+
 .header, 
 .search-section, 
 .compound-list-section, 
@@ -47,7 +47,7 @@ body {
     width: 100vw; 
 }
 
-/* Header & Back Button */
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -77,7 +77,7 @@ body {
     color: var(--color-accent-blue-neon);
 }
 
-/* Hero Section */
+
 .library-page-hero {
     background: var(--color-dark-bg);
     padding: 60px 40px 30px;
@@ -93,7 +93,7 @@ body {
     font-size: 18px;
 }
 
-/* Search Section */
+
 .search-section {
     padding: 20px 40px;
     background: var(--color-darker-bg);
@@ -151,9 +151,7 @@ body {
     padding: 40px;
 }
 
-/* ================================================= */
-/* COMPOUND CARD & FORMULA CIRCLE STYLES */
-/* ================================================= */
+
 
 .compound-card {
     background: var(--color-card-bg); 
@@ -192,7 +190,7 @@ body {
     transition: background-color 0.3s;
 }
 
-/* COLOR CLASSES (dihilangkan untuk meringkas) */
+
 .formula-circle.water { background-color: #3498db; }
 .formula-circle.salt { background-color: #95a5a6; }
 .formula-circle.co2 { background-color: #2ecc71; }
@@ -221,7 +219,7 @@ body {
     min-height: 40px;
 }
 
-/* Footer */
+
 .footer {
     text-align: center;
     padding: 20px;
@@ -231,9 +229,7 @@ body {
     font-size: 0.9em;
 }
 
-/* ================== */
-/* Popup Detail Style */
-/* ================== */
+
 .popup-overlay {
     position: fixed;
     inset: 0;
@@ -275,9 +271,7 @@ body {
 .detail-section p { margin: 5px 0; font-size: 0.95em; line-height: 1.4; color: #ccc; }
 .detail-section strong { color: var(--color-text-light); }
 
-/* ================== */
-/* TOGGLE & STATS STYLE */
-/* ================== */
+
 .toggle-section {
     padding: 10px 40px;
     background: var(--color-darker-bg);
@@ -304,13 +298,13 @@ body {
     max-width: 300px;
 }
 .btn-toggle-view.active {
-    /* Style tombol Statistik saat aktif */
+    
     background: var(--color-card-bg);
     color: var(--color-accent-blue-neon);
     border-color: var(--color-accent-blue-neon);
     font-weight: bold;
 }
-    /* Styling untuk Tombol Aksi Tambah Senyawa */
+   
 .add-compound-action {
     padding: 10px 40px;
     background: var(--color-darker-bg);
@@ -329,14 +323,14 @@ body {
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    text-decoration: none; /* Penting karena menggunakan tag <a> */
+    text-decoration: none; 
     transition: 0.3s;
     display: inline-flex;
     align-items: center;
     gap: 8px;
 }
 .btn-add-new:hover {
-    background: #27ae60; /* Warna hijau yang sedikit lebih gelap */
+    background: #27ae60; 
 }
 
 
@@ -365,11 +359,9 @@ body {
     margin-right: auto;
 }
 
-/* ======================================= */
-/* 🔥 MEDIA QUERIES (RESPONSIVITAS FINAL) 🔥 */
-/* ======================================= */
 
-/* --- Large Mobile/Tablet Portrait (Max-width: 1024px) --- */
+
+
 @media (max-width: 1024px) {
     .compound-grid {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -389,9 +381,9 @@ body {
     }
 }
 
-/* --- ALL MOBILE DEVICES (Max-width: 768px) --- */
+
 @media (max-width: 768px) {
-    /* Grid 2 Kolom MINIMAL untuk semua HP */
+    
     .compound-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)); 
         gap: 10px; 
@@ -401,7 +393,7 @@ body {
         padding: 10px 15px;
     }
     
-    /* Padding Global: Dikurangi ke 15px */
+    
     .header,
     .search-section,
     .compound-list-section,
@@ -416,18 +408,18 @@ body {
         padding-bottom: 15px;
     }
     
-    /* Font Scaling M/S (Agresif agar muat di 2 kolom sempit) */
+    
     .library-page-hero h1 { font-size: 28px; }
     .compound-card h4 { font-size: 0.9em; margin-bottom: 2px; } 
     .formula-circle { width: 40px; height: 40px; font-size: 0.8em; margin-bottom: 5px; } 
     .description { font-size: 0.65em; min-height: 25px; } 
     
-    /* Card Padding M/S */
+    
     .compound-card {
         padding: 8px;
     }
     
-    /* Search Box M/S */
+    
     .search-box {
         padding: 10px 10px;
     }
@@ -435,13 +427,13 @@ body {
         font-size: 14px;
     }
     
-    /* Header Back Button */
+    
     .btn-back {
         padding: 8px 10px;
         font-size: 14px;
     }
 
-    /* Popup M/S */
+    
     .popup-detail-box {
         padding: 15px; 
         width: 95%; 

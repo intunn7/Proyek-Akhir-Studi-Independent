@@ -317,7 +317,7 @@ body {
     font-size: 0.8em;
   }
 }
-/* --- RESPONSIVE EXTREME: Scroll horizontal untuk HP kecil --- */
+
 
 .periodic-wrapper {
   width: 100%;
@@ -339,10 +339,10 @@ body {
   background: var(--color-border-dark);
 }
 
-/* HP kecil < 480px: tabel tetap besar tapi bisa di-scroll */
+
 @media (max-width: 480px) {
   .periodic-table {
-    width: 900px;      /* ukuran ideal supaya tabel tidak terlalu kecil */
+    width: 900px;      
     grid-template-columns: repeat(18, 50px);
     gap: 2px;
   }
@@ -353,7 +353,7 @@ body {
   }
 }
 
-/* HP sangat kecil < 360px */
+
 @media (max-width: 360px) {
   .periodic-table {
     width: 850px;

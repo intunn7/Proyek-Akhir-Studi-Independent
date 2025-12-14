@@ -85,10 +85,7 @@ body {
   margin-bottom: 30px;
 }
 
-/* *
- * NAVIGATION & HEADER STYLES 
- *
- */
+
 
 .navbar {
   display: flex;
@@ -146,10 +143,7 @@ body {
   color: var(--color-accent-blue-neon);
 }
 
-/* *
- * MOBILE SIDEBAR 
- *
- */
+
 .mobile-sidebar {
   position: fixed;
   top: 0;
@@ -213,10 +207,7 @@ body {
   opacity: 1;
 }
 
-/* *
- * MAIN CONTENT SECTIONS 
- *
- */
+
 .hero {
   display: flex;
   max-width: 1400px;
@@ -367,10 +358,7 @@ body {
   font-size: 0.9em;
 }
 
-/* *
- * TEAM SECTION 
- *
- */
+
 .team-section {
   background: var(--color-darker-bg);
 }
@@ -423,10 +411,7 @@ body {
   color: var(--color-text-secondary);
 }
 
-/* *
- * PAGE TRANSITION STYLES 
- *
- */
+
 .page-transition {
   position: fixed;
   inset: 0;
@@ -542,12 +527,9 @@ body {
   overflow: hidden !important;
 }
 
-/* *
- * MEDIA QUERIES 
- *
- */
 
-/* Medium devices (Desktops, 992px and below) */
+
+
 @media (max-width: 992px) {
   .menu-toggle-btn {
     display: block;
@@ -560,10 +542,10 @@ body {
     font-size: 26px;
     padding: 8px 14px;
     box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
-    z-index: 1001; /* Pastikan di atas navbar agar bisa di-klik */
+    z-index: 1001; 
   }
 
-  /* Hover effect */
+  
   .menu-toggle-btn:hover {
     background: var(--color-accent-blue-neon);
     color: #000;
@@ -571,7 +553,7 @@ body {
   }
 }
 
-/* Small devices (Tablets, 900px and below) */
+
 @media (max-width: 900px) {
   .hero,
   .split-content {
@@ -602,29 +584,29 @@ body {
     justify-content: space-between;
   }
 
-  /* Sembunyikan navigasi desktop */
+  
   .navbar .desktop-nav {
     display: none;
   }
 
-  /* Tampilkan tombol toggle menu (hamburger) - Sudah ditangani di 992px, ini penyesuaian untuk tata letak umum */
+  
   .menu-toggle-btn {
     display: block;
-    position: static; /* Kembali ke posisi normal, karena sudah diatur di 992px */
+    position: static; 
     margin-left: auto;
   }
 
-  /* Tampilkan sidebar mobile, tapi masih disembunyikan via transform */
+  
   .mobile-sidebar {
     display: block;
   }
 
   .image-content {
-    min-height: 250px; /* Kurangi tinggi untuk tampilan mobile */
+    min-height: 250px; 
   }
 }
 
-/* Extra small devices (Phones, 480px and below) */
+
 @media (max-width: 480px) {
   .hero {
     padding: 30px 20px;
@@ -652,7 +634,7 @@ body {
   }
 
   .navbar {
-    padding: 15px 10px; /* Padding navbar yang lebih ketat */
+    padding: 15px 10px; 
   }
 
   .menu-toggle-btn {

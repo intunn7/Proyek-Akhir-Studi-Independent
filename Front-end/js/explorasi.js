@@ -1,15 +1,11 @@
 /* eslint-disable no-unused-vars */
-// FILE: explorasi.js (REVISI FINAL: MENGGUNAKAN DELEGASI EVENT UNTUK TOMBOL CANCEL)
 
-// =================================================================
-// KONFIGURASI API
-// =================================================================
 const API_BASE_URL = "http://127.0.0.1:8000"; 
 const ENDPOINT_COMBINE = "/combine"; 
 const ENDPOINT_SAVE = "/save_compound"; 
 const ENDPOINT_GET_ALL = "/get_all_compounds"; 
 
-// === STATE MANAGEMENT GLOBAL ===
+
 let currentReactionResult = null; 
 let progressInterval;
 let currentPopup = null;
@@ -24,29 +20,27 @@ const REACTION_STEPS = [
     "Memuat hasil reaksi."
 ];
 
-// Variabel Global untuk Senyawa
+
 let selectedCompounds = [];
 let allCompoundsData = []; 
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Explorasi.js loaded successfully!");
     
-    // Ambil elemen utama
+    
     const compoundGrid = document.querySelector(".compound-grid"); 
     const box1 = document.querySelector(".reactor-boxes .compound-box:nth-child(1)");
     const box2 = document.querySelector(".reactor-boxes .compound-box:nth-child(3)");
     const btnReset = document.querySelector(".btn-reset");
     const btnGabung = document.querySelector(".btn-gabung");
 
-    // 1. Inisialisasi: Load data senyawa dari backend
+    
     loadCompoundLibrary();
 
-    // 2. Setup Listeners
+    
     setupReactorListeners();
 
-    // =================================================================
-    // HELPER FUNGSIONALITAS UMUM
-    // =================================================================
+    
 
     function getCardColor(cardElement) {
         const colorClasses = [
@@ -103,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fillBox(box2, selectedCompounds[1]);
         }
         
-        // Cek kembali status tombol Gabung
+        
         btnGabung.disabled = selectedCompounds.length !== 2;
         if (selectedCompounds.length === 2) {
             btnGabung.style.opacity = "1";
@@ -118,11 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const index = selectedCompounds.findIndex(c => String(c.id) === String(compoundData.id));
 
         if (index > -1) {
-            // Menghapus/Deselect
+            
             selectedCompounds.splice(index, 1);
             cardElement.classList.remove('selected-compound');
         } else {
-            // Memilih/Select
+            
             if (selectedCompounds.length < 2) {
                 selectedCompounds.push(compoundData);
                 cardElement.classList.add('selected-compound');
@@ -134,16 +128,16 @@ document.addEventListener("DOMContentLoaded", () => {
         updateReactorBoxes();
     }
     
-    // --- FUNGSI DELEGASI CLICK UNTUK TOMBOL CANCEL ---
+    
     function handleCompoundRemoval(targetElement) {
         let compoundId = null;
         
-        // Kasus 1: Mengklik tombol 'x' atau ikon di dalamnya
+        
         if (targetElement.classList.contains('remove-compound-btn') || targetElement.closest('.remove-compound-btn')) {
             const btn = targetElement.closest('.remove-compound-btn');
             compoundId = btn.dataset.compoundId;
         } 
-        // Kasus 2: Mengklik area card di dalam box reaktor
+        
         else if (targetElement.classList.contains('selected-compound-display') || targetElement.closest('.selected-compound-display')) {
              const display = targetElement.closest('.selected-compound-display');
              compoundId = display.dataset.compoundId;
@@ -154,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const compoundDataToRemove = allCompoundsData.find(c => String(c.id) === compoundId);
             
             if (cardToDeselect && compoundDataToRemove) {
-                // Hapus senyawa
+                
                 toggleCompoundSelection(cardToDeselect, compoundDataToRemove);
                 return true;
             }
@@ -184,25 +178,23 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Reaktor Direset.");
         });
         
-        // ==========================================================
-        // DELEGASI EVENT UNTUK TOMBOL CANCEL (Paling Stabil)
-        // ==========================================================
+        
         
         document.addEventListener('click', (event) => {
             const target = event.target;
             
-            // Cek apakah klik terjadi di dalam box reaktor
+            
             if (target.closest('.reactor-boxes')) {
-                // Cek apakah target atau parent-nya adalah compound-box yang sudah terisi
+                
                 const clickedBox = target.closest('.compound-box.selected');
                 
                 if (clickedBox) {
-                    // Coba hapus senyawa berdasarkan target klik
+                    
                     const wasCompoundRemoved = handleCompoundRemoval(target);
                     
                     if (wasCompoundRemoved) {
                         event.stopPropagation();
-                        // Karena handleCompoundRemoval memanggil updateReactorBoxes(), DOM akan berubah
+                       
                     }
                 }
             }
@@ -233,9 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
         popupOverlay.style.display = 'flex';
     }
 
-    // =================================================================
-    // FUNGSI LOADING
-    // =================================================================
+    
     function setLoadingState(isLoading, popupElement = null, message = "GABUNGKAN") {
         const btnGabung = document.querySelector(".btn-gabung");
         
@@ -320,9 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 800);
     }
 
-    // =================================================================
-    // FUNGSI DINAMIS LOAD DATA
-    // =================================================================
+    
 
     async function loadCompoundLibrary() {
         compoundGrid.innerHTML = '<p style="text-align: center; color: #00bfff;">Memuat perpustakaan senyawa...</p>';
@@ -390,9 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateReactorBoxes();
     }
 
-    // =================================================================
-    // FUNGSI API CALL & POPUP HASIL
-    // =================================================================
+    
 
     function getOrCreatePopup() {
         if (currentPopup) {
@@ -507,9 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // =================================================================
-    // FUNGSI UTAMA SHOW REACTION POPUP
-    // =================================================================
+    
     function showReactionPopup(compoundA, compoundB, apiResult = null) {
         console.log("Showing reaction popup...");
         
@@ -520,7 +504,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const popupActions = popupOverlay.querySelector('#popupActions');
         const popupTitle = popupOverlay.querySelector('#popupTitle');
 
-        // Reset semua konten popup
+        
         popupContent.innerHTML = '';
         popupActions.innerHTML = '';
 
@@ -654,7 +638,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         popupContent.innerHTML = initialDisplayHTML;
 
-        // BAGIAN 2: TOMBOL AKSI UTAMA
+        
         const mainActionsHTML = `
             <button id="detailReactionBtn" class="popup-btn popup-btn-details" style="background: #0088cc; padding: 0.8rem 1.5rem; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; color: white;">
                 <i class="fas fa-info-circle"></i> Detail Reaksi
@@ -668,8 +652,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         popupActions.innerHTML = mainActionsHTML;
 
-        // BAGIAN 3: EVENT LISTENERS
-        // 1. Tombol Detail Reaksi
+        
         const detailReactionBtn = popupActions.querySelector('#detailReactionBtn');
         if (detailReactionBtn) {
             detailReactionBtn.addEventListener('click', () => {
@@ -689,7 +672,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // 2. Tombol Back to Main (dari detail)
+        
         const backToMainBtn = popupContent.querySelector('#backToMainBtn');
         if (backToMainBtn) {
             backToMainBtn.addEventListener('click', () => {
@@ -702,7 +685,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // 3. Tombol Save (utama)
+        
         if (apiResult) {
             const saveReactionBtn = popupActions.querySelector('#saveReactionBtn');
             if (saveReactionBtn) {
@@ -715,9 +698,7 @@ document.addEventListener("DOMContentLoaded", () => {
         popupOverlay.style.display = 'flex';
     }
 
-    // =================================================================
-    // HELPER FUNCTION: GENERATE SAFETY DESCRIPTION
-    // =================================================================
+    
     function generateSafetyDescription(reactionType, riskLevel, compoundA, compoundB) {
         const baseDescription = "Reaksi kimia ini memerlukan penanganan khusus. ";
         
@@ -730,9 +711,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // =================================================================
-    // FUNGSI SAVE: SIMPAN HASIL REAKSI KE DATABASE
-    // =================================================================
+    
     async function handleSaveReaction(reactionData) {
         if (!reactionData) {
             showTemporaryMessage("Peringatan", "Tidak ada data reaksi untuk disimpan.", '#ffaa00');
