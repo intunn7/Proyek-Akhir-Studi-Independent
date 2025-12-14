@@ -594,7 +594,7 @@ function showDeleteConfirmModal(id, name) {
             
             <div class="result-structure-section">
                 <h4>Struktur Senyawa (SMILES: ${escapeHtml(c?.rumus_struktur_smiles || "N/A")})</h4>
-                <div id="compoundStructureCanvas" style="width: 100%; height: 250px; background-color: var(--color-background); border-radius: 8px; margin-top: 10px; border: 1px solid var(--color-card-bg);">
+                <div id="compoundStructureCanvas" style="width: 100%; background-color: var(--color-background); border-radius: 8px; margin-top: 10px; border: 1px solid var(--color-card-bg);">
                     </div>
             </div>
             <div class="result-section">

@@ -48720,5 +48720,53 @@
     "justifikasi_ringkas": "Triethanolamine adalah senyawa amino alkohol serbaguna yang berfungsi sebagai pelarut efektif dan inhibitor korosi yang baik untuk logam besi dalam sistem berbasis air, menjadikannya pilihan optimal untuk kriteria yang diminta.",
     "isSaved": false,
     "id": "Triethanolamine"
+  },
+  {
+    "nama_senyawa": "Natrium Klorida (NaCl) dan Air (H₂O)",
+    "rumus_molekul": "HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O(l)",
+    "deskripsi": "Asam klorida dan natrium hidroksida bereaksi dalam reaksi netralisasi eksotermik untuk menghasilkan natrium klorida dan air.",
+    "kategori_aplikasi": "Hasil Reaksi",
+    "jenis_reaksi": "Netralisasi",
+    "catatan_risiko": "Kedua reaktan, asam klorida dan natrium hidroksida, sangat korosif dan dapat menyebabkan luka bakar parah pada kulit dan kerusakan mata. Reaksi netralisasi ini bersifat eksotermik, melepaskan panas yang signifikan, terutama jika larutan pekat dicampur dengan cepat, berpotensi menyebabkan percikan bahan korosif. Penanganan harus dilakukan dengan hati-hati menggunakan alat pelindung diri (APD) yang sesuai seperti sarung tangan, pelindung mata, dan jas lab, serta di area berventilasi baik.",
+    "reaktan_a": "Asam Klorida (HCl)",
+    "reaktan_b": "Natrium Hidroksida (NaOH)",
+    "id": "Natrium Klorida (NaCl) dan Air (H₂O)"
+  },
+  {
+    "nama_senyawa": "Asam Format",
+    "rumus_molekul": "CH2O2",
+    "berat_molekul": 46.03,
+    "sinonim": "Asam Metanoat, Formic Acid",
+    "deskripsi": "Asam format adalah asam karboksilat paling sederhana, berupa cairan tak berwarna dengan bau menyengat. Ini adalah pelarut yang baik untuk banyak senyawa organik dan memiliki sifat korosif terhadap logam, menjadikannya efektif sebagai penghilang karat. Meskipun sangat polar, ia cepat terurai secara hayati. Senyawa ini mudah terbakar dan korosif.",
+    "titik_didih_celsius": 100.8,
+    "titik_leleh_celsius": 8.4,
+    "densitas_gcm3": 1.22,
+    "pernyataan_bahaya_ghs": "H226 (Cairan dan uap mudah terbakar), H314 (Menyebabkan luka bakar kulit dan kerusakan mata serius), H331 (Beracun jika terhirup).",
+    "kategori_aplikasi": "Pelarut, Penghilang Karat, Agen Pengawet, Bahan Kimia Industri",
+    "sifat_fungsional": "Asam, Pelarut, Reduktor, Korosif",
+    "tingkat_risiko_keselamatan": "Tinggi",
+    "bahaya_keselamatan": "Korosif terhadap kulit dan mata, uapnya dapat menyebabkan iritasi pernapasan parah, mudah terbakar.",
+    "ketersediaan_bahan_baku": "Tersedia",
+    "data_unsur_penyusun": [
+      {
+        "nomor_atom": 6,
+        "nama_unsur": "Karbon",
+        "simbol": "C"
+      },
+      {
+        "nomor_atom": 1,
+        "nama_unsur": "Hidrogen",
+        "simbol": "H"
+      },
+      {
+        "nomor_atom": 8,
+        "nama_unsur": "Oksigen",
+        "simbol": "O"
+      }
+    ],
+    "skor_kecocokan": 54,
+    "justifikasi_ringkas": "Asam format adalah pelarut dan penghilang karat yang efektif dengan pH yang sesuai dan biodegradabilitas cepat, namun memiliki titik didih, densitas, viskositas, dan polaritas yang sangat berbeda dari kriteria target.",
+    "isSaved": false,
+    "id": "Asam Format"
   }
 ]
