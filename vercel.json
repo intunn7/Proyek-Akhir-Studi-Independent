@@ -10,8 +10,8 @@
   ],
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://huggingface.co/spaces/syaefur/chemis-try-agent-api/:path*"
+      "source": "/api/(.*)", 
+      "destination": "https://huggingface.co/spaces/syaefur/chemis-try-agent-api/$1"
     }
   ],
   "routes": [
@@ -20,4 +20,4 @@
       "dest": "/dist/$1"
     }
   ]
-} 
+}
