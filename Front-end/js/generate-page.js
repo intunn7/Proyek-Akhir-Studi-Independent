@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-const API_BASE_URL = "/api";
+const API_BASE_URL = "https://huggingface.co/spaces/syaefur/chemis-try-agent-api";
 const ENDPOINT_GENERATE = "/generate";
 const ENDPOINT_REFINE = "/refine";
 const ENDPOINT_SAVE = "/save_compound";

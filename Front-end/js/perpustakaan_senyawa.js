@@ -3,7 +3,7 @@
 /* eslint-disable no-undef */
 
 
-const API_BASE_URL = "/api";
+const API_BASE_URL = "https://huggingface.co/spaces/syaefur/chemis-try-agent-api";
 const ENDPOINT_GET_ALL = "/get_all_compounds";
 
 let allCompoundsData = []; 

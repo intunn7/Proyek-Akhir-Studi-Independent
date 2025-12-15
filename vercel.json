@@ -7,15 +7,5 @@
         "distDir": "dist"
       }
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/(.*)", 
-      "destination": "https://huggingface.co/spaces/syaefur/chemis-try-agent-api/run/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/dist/$1"
-    }
   ]
 }
