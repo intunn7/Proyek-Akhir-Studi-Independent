@@ -17,7 +17,7 @@
 
 Proses *preprocessing* data merupakan fondasi utama sistem AI pada ChemisTry. Dataset kimia dikumpulkan, diperkaya, dan diproses sebelum digunakan oleh *vector database* dan model AI.
 
-### 📦 preprocessing dataset
+### 📦 Sumber Dataset
 
 Dataset utama diperoleh dan dikembangkan dari repository berikut:
 
@@ -222,6 +222,36 @@ Buat file `.env`:
 ```env
 GEMINI_API_KEY=your_api_key_here
 ```
+
+### 🔑 Cara Mendapatkan Gemini API Key (Google AI Studio)
+
+Ikuti langkah berikut untuk mendapatkan **Gemini API Key** resmi dari Google:
+
+1. Buka **Google AI Studio**
+
+   * Kunjungi: [https://aistudio.google.com](https://aistudio.google.com)
+
+2. Login menggunakan **Google Account**
+
+3. Klik menu **Get API Key**
+
+   * Pilih **Create API Key**
+   * Pilih atau buat project Google Cloud (jika diminta)
+
+4. Salin (**Copy**) API Key yang dihasilkan
+
+5. Tempelkan API Key ke dalam file `.env`:
+
+```env
+GEMINI_API_KEY=AIzaSyxxxxxxxxxxxxxxxxxxxx
+```
+
+📌 **Catatan Keamanan**:
+
+* Jangan meng-*commit* file `.env` ke repository publik
+* Gunakan `.gitignore` untuk mengecualikan `.env`
+
+---
 
 ---
 
