@@ -17,7 +17,7 @@
 
 Proses *preprocessing* data merupakan fondasi utama sistem AI pada ChemisTry. Dataset kimia dikumpulkan, diperkaya, dan diproses sebelum digunakan oleh *vector database* dan model AI.
 
-### 📦 Sumber Dataset
+### 📦 preprocessing dataset
 
 Dataset utama diperoleh dan dikembangkan dari repository berikut:
 
