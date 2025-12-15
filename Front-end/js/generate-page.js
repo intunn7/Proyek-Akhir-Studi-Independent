@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 // const API_BASE_URL = "http://127.0.0.1:8000"; 
-const API_BASE_URL = "https://syaefur-chemis-try-agent-api.hf.space";
+const API_BASE_URL = "/api/chemistry";
 const ENDPOINT_GENERATE = "/generate";
 const ENDPOINT_REFINE = "/refine";
 const ENDPOINT_SAVE = "/save_compound";
