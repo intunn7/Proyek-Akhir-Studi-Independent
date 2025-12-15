@@ -11,7 +11,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)", 
-      "destination": "https://huggingface.co/spaces/syaefur/chemis-try-agent-api/api/$1"
+      "destination": "https://huggingface.co/spaces/syaefur/chemis-try-agent-api/run/$1"
     },
     {
       "source": "/(.*)",
