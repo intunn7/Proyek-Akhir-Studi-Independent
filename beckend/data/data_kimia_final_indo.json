@@ -48768,5 +48768,58 @@
     "justifikasi_ringkas": "Asam format adalah pelarut dan penghilang karat yang efektif dengan pH yang sesuai dan biodegradabilitas cepat, namun memiliki titik didih, densitas, viskositas, dan polaritas yang sangat berbeda dari kriteria target.",
     "isSaved": false,
     "id": "Asam Format"
+  },
+  {
+    "nama_senyawa": "Natrium Asetat (CH3COONa) dan Air (H2O)",
+    "rumus_molekul": "CH3COOH(aq) + NaOH(aq) → CH3COONa(aq) + H2O(l)",
+    "deskripsi": "Asam asetat bereaksi dengan natrium hidroksida dalam reaksi netralisasi untuk menghasilkan natrium asetat dan air, melepaskan panas.",
+    "kategori_aplikasi": "Hasil Reaksi",
+    "jenis_reaksi": "Netralisasi",
+    "catatan_risiko": "Natrium hidroksida dan asam asetat keduanya bersifat korosif. Reaksi netralisasi ini bersifat eksotermik, menghasilkan panas yang signifikan, terutama jika larutan pekat dicampur, berpotensi menyebabkan percikan atau mendidih. Ini menimbulkan risiko luka bakar kimia dan termal. Penanganan harus dilakukan dengan hati-hati menggunakan APD yang sesuai (sarung tangan, pelindung mata, jas lab) dan di area berventilasi baik.",
+    "reaktan_a": "Natrium Hidroksida (NaOH)",
+    "reaktan_b": "Asam Asetat (CH3COOH)",
+    "id": "Natrium Asetat (CH3COONa) dan Air (H2O)"
+  },
+  {
+    "nama_senyawa": "Morpholine",
+    "rumus_molekul": "C4H9NO",
+    "berat_molekul": 87.12,
+    "sinonim": "Tetrahydro-1,4-oxazine; Diethylene Imide Oxide; 1-Oxa-4-azacyclohexane",
+    "deskripsi": "Morpholine adalah senyawa organik heterosiklik yang mengandung gugus fungsional amina dan eter. Ini adalah cairan tak berwarna, mudah menguap dengan bau khas amina. Senyawa ini larut dalam air dan banyak pelarut organik. Morpholine banyak digunakan sebagai pelarut dan sebagai inhibitor korosi, terutama dalam sistem boiler uap dan sistem pendingin loop tertutup, di mana ia membantu menjaga pH dan membentuk lapisan pelindung pada permukaan logam. Senyawa ini dapat menyebabkan iritasi pada kulit, mata, dan saluran pernapasan.",
+    "titik_didih_celsius": 128,
+    "titik_leleh_celsius": -5,
+    "densitas_gcm3": 1,
+    "pernyataan_bahaya_ghs": "H226 (Cairan dan uap mudah terbakar), H302 (Berbahaya jika tertelan), H312 (Berbahaya jika kontak dengan kulit), H314 (Menyebabkan luka bakar parah pada kulit dan kerusakan mata), H332 (Berbahaya jika terhirup).",
+    "kategori_aplikasi": "Pelarut, Inhibitor Korosi, Zat Antifreeze, Bahan Baku Kimia",
+    "sifat_fungsional": "Pelarut polar, Inhibitor korosi (amina), Basa lemah",
+    "tingkat_risiko_keselamatan": "Tinggi",
+    "bahaya_keselamatan": "Cairan dan uap mudah terbakar. Berbahaya jika tertelan, kontak dengan kulit, atau terhirup. Menyebabkan luka bakar parah pada kulit dan kerusakan mata.",
+    "ketersediaan_bahan_baku": "Tersedia",
+    "data_unsur_penyusun": [
+      {
+        "nomor_atom": 6,
+        "nama_unsur": "Karbon",
+        "simbol": "C"
+      },
+      {
+        "nomor_atom": 1,
+        "nama_unsur": "Hidrogen",
+        "simbol": "H"
+      },
+      {
+        "nomor_atom": 7,
+        "nama_unsur": "Nitrogen",
+        "simbol": "N"
+      },
+      {
+        "nomor_atom": 8,
+        "nama_unsur": "Oksigen",
+        "simbol": "O"
+      }
+    ],
+    "skor_kecocokan": 90,
+    "justifikasi_ringkas": "Morpholine adalah pelarut polar yang efektif dan inhibitor korosi yang sangat baik, terutama dalam sistem air, menjadikannya pilihan ideal untuk kedua kriteria yang diminta.",
+    "isSaved": false,
+    "id": "Morpholine"
   }
 ]
