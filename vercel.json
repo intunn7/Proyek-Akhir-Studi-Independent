@@ -12,12 +12,10 @@
     {
       "source": "/api/(.*)", 
       "destination": "https://huggingface.co/spaces/syaefur/chemis-try-agent-api/$1"
-    }
-  ],
-  "routes": [
+    },
     {
-      "src": "/(.*)",
-      "dest": "/dist/$1"
+      "source": "/(.*)",
+      "destination": "/dist/$1"
     }
   ]
 }
