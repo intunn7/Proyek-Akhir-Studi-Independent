@@ -21,7 +21,7 @@ Proses *preprocessing* data merupakan fondasi utama sistem AI pada ChemisTry. Da
 
 Dataset utama diperoleh dan dikembangkan dari repository berikut:
 
-🔗 [https://github.com/MENSTRUE/dataset_cemistry](https://github.com/MENSTRUE/dataset_cemistry)
+🔗 (https://github.com/intunn7/Dataset-Proyek-Akhir-Studi-Independent.git)
 
 ### ⚙️ Alur Preprocessing Dataset
 
